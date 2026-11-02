@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Mitra Petani - PT. Sirtanio Organik Indonesia</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter / Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        sirtanio: {
+                            50: '#f2f8f4',
+                            100: '#e1f0e6',
+                            600: '#2e7d32',
+                            700: '#1b5e20',
+                            800: '#144518',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-sirtanio-50 text-gray-800 h-full flex flex-col antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-sirtanio-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-sirtanio-600 rounded-xl flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-wheat-awn text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg text-sirtanio-800 leading-tight">Portal Mitra Petani Sirtanio</h1>
+                    <p class="text-xs text-sirtanio-600 font-medium">PT. Sirtanio Organik Indonesia • Banyuwangi</p>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="hidden md:flex space-x-1 bg-sirtanio-50 p-1 rounded-xl border border-sirtanio-100">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-sirtanio-700 bg-white shadow-xs">
+                    <i class="fa-solid fa-chart-pie mr-2"></i>Dashboard Petani
+                </button>
+                <button onclick="switchTab('setor')" id="nav-setor" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-gray-600 hover:text-sirtanio-700">
+                    <i class="fa-solid fa-calendar-plus mr-2"></i>Booking & Setor Gabah
+                </button>
+                <button onclick="switchTab('lab')" id="nav-lab" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-gray-600 hover:text-sirtanio-700">
+                    <i class="fa-solid fa-flask-vial mr-2"></i>Uji Lab & Grade
+                </button>
+            </nav>
+
+            <!-- Profile & Mobile Menu Button -->
+            <div class="flex items-center space-x-3">
+                <div class="hidden sm:flex items-center space-x-2 bg-sirtanio-50 px-3 py-1.5 rounded-xl border border-sirtanio-100">
+                    <div class="w-8 h-8 rounded-full bg-sirtanio-600 text-white flex items-center justify-center font-bold text-xs">
+                        BS
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-xs font-bold text-sirtanio-800">Bpk. Budi Santoso</span>
+                        <span class="block text-[10px] text-gray-500">Kelompok Tani Subur Makmur</span>
+                    </div>
+                </div>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden p-3 rounded-xl bg-gray-100 text-gray-700">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('dashboard'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-sirtanio-50 flex items-center text-sirtanio-800">
+                <i class="fa-solid fa-chart-pie mr-3 w-5"></i> Dashboard Petani
+            </button>
+            <button onclick="switchTab('setor'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-sirtanio-50 flex items-center text-gray-700">
+                <i class="fa-solid fa-calendar-plus mr-3 w-5"></i> Booking & Setor Gabah
+            </button>
+            <button onclick="switchTab('lab'); toggleMobileMenu();" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-sirtanio-50 flex items-center text-gray-700">
+                <i class="fa-solid fa-flask-vial mr-3 w-5"></i> Uji Lab & Grade
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- ================= DASHBOARD TAB ================= -->
+        <section id="tab-dashboard" class="space-y-6">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-sirtanio-800 to-sirtanio-600 rounded-3xl p-6 sm:p-10 text-white shadow-lg relative overflow-hidden flex flex-col md:flex-row justify-between items-center">
+                <div class="relative z-10 max-w-xl space-y-3">
+                    <span class="bg-emerald-500/30 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-400/30">
+                        Mitra Petani Organik Resmi
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Selamat Datang, Bpk. Budi Santoso</h2>
+                    <p class="text-sirtanio-100 text-sm sm:text-base leading-relaxed">
+                        Kelola jadwal setor hasil panen gabah organik Anda ke Gudang Pusat PT. Sirtanio Organik Indonesia di Rogojampi, Banyuwangi. Pantau hasil uji laboratorium dan rekapitulasi pendapatan dengan transparan.
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0 relative z-10 hidden sm:block">
+                    <div class="w-40 h-40 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 shadow-xl">
+                        <i class="fa-solid fa-hands-holding-child text-white text-6xl"></i>
+                    </div>
+                </div>
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-600/30 rounded-full blur-3xl"></div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white p-6 rounded-3xl border border-sirtanio-100 shadow-sm space-y-2">
+                    <div class="w-10 h-10 bg-emerald-100 text-sirtanio-700 rounded-xl flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Total Gabah Disetor</span>
+                    <h3 class="text-2xl font-extrabold text-sirtanio-800">4.5 Ton</h3>
+                    <p class="text-xs text-emerald-600 font-bold"><i class="fa-solid fa-arrow-up mr-1"></i> +15% dari musim lalu</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-sirtanio-100 shadow-sm space-y-2">
+                    <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Estimasi Pendapatan</span>
+                    <h3 class="text-2xl font-extrabold text-sirtanio-800">Rp 31.500.000</h3>
+                    <p class="text-xs text-gray-500">Lunas / Masuk Rekening</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-sirtanio-100 shadow-sm space-y-2">
+                    <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Status Sertifikasi Organik</span>
+                    <h3 class="text-2xl font-extrabold text-sirtanio-800">Valid (SNI)</h3>
+                    <p class="text-xs text-blue-600 font-bold">LSO Tjiptah Hadiprana (Aktif)</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-sirtanio-100 shadow-sm space-y-2">
+                    <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Wilayah Lahan Sawah</span>
+                    <h3 class="text-2xl font-extrabold text-sirtanio-800">Rogojampi</h3>
+                    <p class="text-xs text-gray-500">Klaster Aluvial Subur (0.7 Hektar)</p>
+                </div>
+            </div>
+
+            <!-- Submission History Table -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-sirtanio-100 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-sirtanio-600 font-bold text-xs uppercase tracking-wider bg-sirtanio-100 px-3 py-1 rounded-full">Logistik & Gudang</span>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-sirtanio-800 mt-2">Riwayat Setor Gabah Anda</h3>
+                        <p class="text-gray-600 text-sm mt-1">Daftar pengiriman gabah musim panen saat ini beserta nomor tiket verifikasi.</p>
+                    </div>
+                    <button onclick="switchTab('setor')" class="bg-sirtanio-600 hover:bg-sirtanio-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition-all shadow-md flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Booking Jadwal Baru</span>
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-sirtanio-50 text-sirtanio-800 text-xs uppercase font-bold tracking-wider">
+                                <th class="p-4 rounded-l-2xl">ID Tiket</th>
+                                <th class="p-4">Jenis Gabah Organik</th>
+                                <th class="p-4">Berat (Kg)</th>
+                                <th class="p-4">Tanggal Rencana</th>
+                                <th class="p-4">Status Uji & Gudang</th>
+                                <th class="p-4 rounded-r-2xl text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body" class="divide-y divide-gray-100 text-sm font-medium">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= BOOKING & SETOR GABAH TAB ================= -->
+        <section id="tab-setor" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Form Booking -->
+                <div class="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-sirtanio-100 space-y-6">
+                    <div>
+                        <span class="text-sirtanio-600 font-bold text-xs uppercase tracking-wider bg-sirtanio-100 px-3 py-1 rounded-full">Sistem Antrean Gudang</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-sirtanio-800 mt-2">Formulir Booking Jadwal Setor Gabah</h2>
+                        <p class="text-gray-600 text-sm mt-1">Isi formulir ini untuk mendapatkan tiket QR digital sebelum membawa gabah organik ke gudang PT. Sirtanio Organik Indonesia.</p>
+                    </div>
+
+                    <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-700 uppercase">Jenis Gabah Organik</label>
+                                <select id="form-jenis" class="w-full bg-sirtanio-50/50 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sirtanio-600 font-medium">
+                                    <option value="Gabah Merah Organik">Gabah Merah Organik (Srono)</option>
+                                    <option value="Gabah Putih Organik Premium">Gabah Putih Organik Premium (Rogojampi)</option>
+                                    <option value="Gabah Hitam Organik Mentari">Gabah Hitam Organik Mentari (Cluring)</option>
+                                    <option value="Gabah Cokelat Organik Nutri">Gabah Cokelat Organik Nutri (Gambiran)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-700 uppercase">Estimasi Berat (Kg)</label>
+                                <input type="number" id="form-berat" placeholder="Contoh: 1200" required min="100" class="w-full bg-sirtanio-50/50 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sirtanio-600 font-medium">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-700 uppercase">Tanggal Rencana Kirim</label>
+                                <input type="date" id="form-tanggal" required class="w-full bg-sirtanio-50/50 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sirtanio-600 font-medium">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-700 uppercase">Wilayah Kecamatan Lahan</label>
+                                <select id="form-wilayah" class="w-full bg-sirtanio-50/50 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sirtanio-600 font-medium">
+                                    <option value="Kecamatan Rogojampi">Kecamatan Rogojampi</option>
+                                    <option value="Kecamatan Srono">Kecamatan Srono</option>
+                                    <option value="Kecamatan Cluring">Kecamatan Cluring</option>
+                                    <option value="Kecamatan Gambiran">Kecamatan Gambiran</option>
+                                    <option value="Kecamatan Singojuruh">Kecamatan Singojuruh</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-gray-700 uppercase">Catatan Tambahan untuk Petugas QC</label>
+                            <textarea id="form-catatan" rows="3" placeholder="Contoh: Gabah sudah dijemur merata selama 3 hari, kadar air diperkirakan di bawah 14%." class="w-full bg-sirtanio-50/50 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sirtanio-600 font-medium"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-sirtanio-600 hover:bg-sirtanio-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <span>Dapatkan Tiket QR Digital Setor Gabah</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Guidelines Card -->
+                <div class="space-y-6">
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-sirtanio-100 space-y-4">
+                        <h4 class="font-bold text-base text-sirtanio-800 flex items-center">
+                            <i class="fa-solid fa-circle-info text-sirtanio-600 mr-2"></i> Standar & Ketentuan Kemitraan
+                        </h4>
+                        <ul class="text-xs text-gray-600 space-y-3 leading-relaxed">
+                            <li class="flex items-start space-x-2">
+                                <i class="fa-solid fa-check text-sirtanio-600 mt-0.5"></i>
+                                <span><strong>Bebas Pestisida:</strong> Gabah wajib lolos uji organoleptik tanpa kandungan pestisida kimia sintetis.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i class="fa-solid fa-check text-sirtanio-600 mt-0.5"></i>
+                                <span><strong>Kadar Air Ideal:</strong> Kadar air penerimaan standar pabrik adalah 14% - 18% untuk hasil giling maksimal.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i class="fa-solid fa-check text-sirtanio-600 mt-0.5"></i>
+                                <span><strong>Insentif Harga Organik:</strong> Sirtanio memberikan harga khusus 15-25% di atas harga pasar konvensional.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-emerald-800 rounded-3xl p-6 text-white space-y-3 shadow-lg">
+                        <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <h4 class="font-bold text-sm">Lokasi Gudang Penerimaan</h4>
+                        <p class="text-xs text-sirtanio-100 leading-relaxed">
+                            Kompleks Pengolahan PT. Sirtanio Organik Indonesia, Jl. Raya Rogojampi - Srono, Banyuwangi, Jawa Timur.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= UJI LAB & GRADE TAB ================= -->
+        <section id="tab-lab" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-sirtanio-100 space-y-6">
+                <div class="max-w-2xl">
+                    <span class="text-sirtanio-600 font-bold text-xs uppercase tracking-wider bg-sirtanio-100 px-3 py-1 rounded-full">Laboratorium & Kualitas</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-sirtanio-800 mt-2">Modul Hasil Uji Lab & Grade Gabah</h2>
+                    <p class="text-gray-600 text-sm mt-1">Pilih tiket pengiriman Anda untuk melihat hasil pengujian kadar air, persentase gabah hampa, grade mutu, hingga kalkulasi total pembayaran.</p>
+                </div>
+
+                <!-- Ticket Selector -->
+                <div class="bg-sirtanio-50 p-4 rounded-2xl border border-sirtanio-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div class="w-full sm:w-1/2 space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">Pilih Tiket Setoran</label>
+                        <select id="lab-ticket-select" onchange="renderLabResult()" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-sirtanio-600">
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                    <div class="w-full sm:w-auto text-left sm:text-right">
+                        <span class="text-xs text-gray-500 block">Status Pengujian QC</span>
+                        <span id="lab-badge-status" class="inline-block bg-emerald-100 text-sirtanio-800 text-xs font-bold px-3 py-1 rounded-full mt-1">Lolos Grade A</span>
+                    </div>
+                </div>
+
+                <!-- Lab Report Display -->
+                <div id="lab-report-container" class="space-y-6">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= MODAL: DIGITAL QR TICKET ================= -->
+    <div id="qr-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 text-center space-y-6 shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div class="w-16 h-16 bg-emerald-100 text-sirtanio-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <div>
+                <span id="modal-ticket-id" class="text-xs font-bold text-sirtanio-600 bg-sirtanio-100 px-3 py-1 rounded-full">SRT-TKT-9921</span>
+                <h3 class="text-xl font-extrabold text-sirtanio-800 mt-2">Tiket QR Digital Setor Gabah</h3>
+                <p class="text-xs text-gray-500 mt-1">Tunjukkan QR Code ini kepada petugas gerbang pos satpam & tim penimbangan gudang Sirtanio.</p>
+            </div>
+
+            <!-- Simulated QR Visual Box -->
+            <div class="bg-sirtanio-50 p-6 rounded-2xl border border-sirtanio-100 space-y-3">
+                <div class="w-36 h-36 bg-white mx-auto rounded-xl flex items-center justify-center border border-gray-200 shadow-sm p-2">
+                    <!-- Simulated QR pattern using icons/grid -->
+                    <div class="grid grid-cols-4 gap-1 w-full h-full text-sirtanio-800 text-xl items-center justify-items-center">
+                        <i class="fa-solid fa-square"></i><i class="fa-solid fa-square-full"></i><i class="fa-solid fa-square"></i><i class="fa-solid fa-square-full"></i>
+                        <i class="fa-solid fa-square-full"></i><i class="fa-solid fa-square"></i><i class="fa-solid fa-square-full"></i><i class="fa-solid fa-square"></i>
+                        <i class="fa-solid fa-square"></i><i class="fa-solid fa-square-full"></i><i class="fa-solid fa-square"></i><i class="fa-solid fa-square-full"></i>
+                        <i class="fa-solid fa-square-full"></i><i class="fa-solid fa-square"></i><i class="fa-solid fa-square-full"></i><i class="fa-solid fa-square"></i>
+                    </div>
+                </div>
+                <div class="text-xs text-gray-600 space-y-1">
+                    <p><strong>Petani:</strong> Bpk. Budi Santoso (Subur Makmur)</p>
+                    <p><strong id="modal-jenis-text">Gabah Merah Organik</strong> • <span id="modal-berat-text">1,200 Kg</span></p>
+                    <p class="text-sirtanio-600 font-bold" id="modal-tanggal-text">Jadwal: 05 November 2026</p>
+                </div>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="closeQrModal()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl transition-all text-sm">
+                    Tutup
+                </button>
+                <button onclick="downloadTicketSim()" class="flex-1 bg-sirtanio-600 hover:bg-sirtanio-700 text-white font-bold py-3 rounded-xl transition-all text-sm shadow-md">
+                    <i class="fa-solid fa-download mr-1"></i> Simpan Tiket
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-sirtanio-800 text-white mt-16 border-t border-sirtanio-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-sirtanio-600 rounded-xl flex items-center justify-center text-white">
+                        <i class="fa-solid fa-wheat-awn text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg">PT. Sirtanio Organik Indonesia</h3>
+                </div>
+                <p class="text-sirtanio-100 text-xs leading-relaxed">
+                    Pusat pemberdayaan petani organik di Banyuwangi. Menjamin kesejahteraan petani melalui kemitraan adil dan transparan.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm uppercase tracking-wider mb-3 text-emerald-300">Kontak Gudang & QC</h4>
+                <p class="text-sirtanio-100 text-xs leading-relaxed">
+                    <i class="fa-solid fa-location-dot mr-2 text-emerald-400"></i> Jl. Raya Srono - Rogojampi, Banyuwangi, Jatim<br>
+                    <i class="fa-solid fa-phone mr-2 text-emerald-400 mt-2"></i> Hotline Mitra: +62 812-3456-7890
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm uppercase tracking-wider mb-3 text-emerald-300">Standar Mutu</h4>
+                <p class="text-sirtanio-100 text-xs leading-relaxed">
+                    Sertifikasi Organik SNI 6729:2016. Pengujian laboratorium berkala untuk kadar air, kemurnian varietas, dan bebas residu pestisida.
+                </p>
+            </div>
+        </div>
+        <div class="bg-sirtanio-900 py-4 text-center text-xs text-sirtanio-200 border-t border-sirtanio-700/50">
+            &copy; 2026 PT. Sirtanio Organik Indonesia. All Rights Reserved. Portal Mitra Petani Organik.
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Mock Submissions Database
+        let submissions = [
+            {
+                id: 'SRT-TKT-8841',
+                jenis: 'Gabah Merah Organik',
+                berat: 1500,
+                tanggal: '2026-11-04',
+                wilayah: 'Kecamatan Srono',
+                catatan: 'Gabah hasil panen kering atap.',
+                status: 'Lolos Lab (Grade A)',
+                kadarAir: '14.2%',
+                kadarHampa: '1.1%',
+                hargaPerKg: 7500,
+                totalBayar: 11250000,
+                catatanLab: 'Kadar air sangat ideal, butir beras utuh memenuhi standar ekspor organik.'
+            },
+            {
+                id: 'SRT-TKT-8210',
+                jenis: 'Gabah Putih Organik Premium',
+                berat: 2000,
+                tanggal: '2026-10-20',
+                wilayah: 'Kecamatan Rogojampi',
+                catatan: 'Panen musim kedua klaster subur.',
+                status: 'Selesai & Dibayar',
+                kadarAir: '14.8%',
+                kadarHampa: '1.5%',
+                hargaPerKg: 6800,
+                totalBayar: 13600000,
+                catatanLab: 'Lolos uji laboratorium residu pestisida nol. Mutu sangat baik.'
+            },
+            {
+                id: 'SRT-TKT-7923',
+                jenis: 'Gabah Hitam Organik Mentari',
+                berat: 1000,
+                tanggal: '2026-10-02',
+                wilayah: 'Kecamatan Cluring',
+                catatan: 'Varietas melik hitam asli.',
+                status: 'Selesai & Dibayar',
+                kadarAir: '13.9%',
+                kadarHampa: '0.8%',
+                hargaPerKg: 9500,
+                totalBayar: 9500000,
+                catatanLab: 'Kadar hampa sangat rendah, antioksidan tinggi.'
+            }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSubmissions();
+            renderLabDropdown();
+            // Set default date in form to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('form-tanggal').value = today;
+        });
+
+        // --- TAB SWITCHING ---
+        function switchTab(tabName) {
+            const tabs = ['dashboard', 'setor', 'lab'];
+            tabs.forEach(t => {
+                const section = document.getElementById(`tab-${t}`);
+                const navBtn = document.getElementById(`nav-${t}`);
+                if (t === tabName) {
+                    section.classList.remove('hidden');
+                    if (navBtn) navBtn.className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all text-sirtanio-700 bg-white shadow-xs";
+                } else {
+                    section.classList.add('hidden');
+                    if (navBtn) navBtn.className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all text-gray-600 hover:text-sirtanio-700";
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- DASHBOARD TABLE RENDER ---
+        function renderSubmissions() {
+            const tbody = document.getElementById('history-table-body');
+            tbody.innerHTML = '';
+
+            submissions.forEach(s => {
+                let statusBadge = '';
+                if (s.status.includes('Lolos')) {
+                    statusBadge = '<span class="bg-emerald-100 text-sirtanio-800 px-3 py-1 rounded-full text-xs font-bold">Lolos Lab (Grade A)</span>';
+                } else if (s.status.includes('Selesai')) {
+                    statusBadge = '<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-bold">Selesai & Dibayar</span>';
+                } else {
+                    statusBadge = '<span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">Menunggu QC Gudang</span>';
+                }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-sirtanio-50/50 transition-all">
+                        <td class="p-4 font-bold text-sirtanio-800">${s.id}</td>
+                        <td class="p-4 text-gray-800">${s.jenis}</td>
+                        <td class="p-4 font-bold text-gray-700">${s.berat.toLocaleString()} Kg</td>
+                        <td class="p-4 text-gray-500 text-xs">${s.tanggal}</td>
+                        <td class="p-4">${statusBadge}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="inspectLab('${s.id}')" class="bg-sirtanio-100 hover:bg-sirtanio-600 hover:text-white text-sirtanio-800 px-3 py-1.5 rounded-xl text-xs font-bold transition-all">
+                                Cek Lab <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- BOOKING & QR TICKET GENERATOR ---
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            const jenis = document.getElementById('form-jenis').value;
+            const berat = parseInt(document.getElementById('form-berat').value);
+            const tanggal = document.getElementById('form-tanggal').value;
+            const wilayah = document.getElementById('form-wilayah').value;
+            const catatan = document.getElementById('form-catatan').value;
+
+            const newId = 'SRT-TKT-' + Math.floor(1000 + Math.random() * 9000);
+            const defaultPrice = jenis.includes('Hitam') ? 9500 : jenis.includes('Merah') ? 7500 : 6800;
+
+            const newSub = {
+                id: newId,
+                jenis,
+                berat,
+                tanggal,
+                wilayah,
+                catatan,
+                status: 'Menunggu QC Gudang',
+                kadarAir: '14.5% (Estimasi)',
+                kadarHampa: '1.2%',
+                hargaPerKg: defaultPrice,
+                totalBayar: berat * defaultPrice,
+                catatanLab: 'Sampel gabah baru dijadwalkan masuk gudang untuk pengujian laboratorium.'
+            };
+
+            submissions.unshift(newSub);
+            renderSubmissions();
+            renderLabDropdown();
+
+            // Show QR Ticket Modal
+            document.getElementById('modal-ticket-id').innerText = newId;
+            document.getElementById('modal-jenis-text').innerText = jenis;
+            document.getElementById('modal-berat-text').innerText = berat.toLocaleString() + ' Kg';
+            document.getElementById('modal-tanggal-text').innerText = 'Jadwal: ' + tanggal;
+            document.getElementById('qr-modal').classList.remove('hidden');
+        }
+
+        function closeQrModal() {
+            document.getElementById('qr-modal').classList.add('hidden');
+            switchTab('dashboard');
+        }
+
+        function downloadTicketSim() {
+            alert("Tiket QR Digital berhasil diunduh ke perangkat Anda.");
+            closeQrModal();
+        }
+
+        // --- LAB TEST MODULE ---
+        function renderLabDropdown() {
+            const select = document.getElementById('lab-ticket-select');
+            select.innerHTML = '';
+            submissions.forEach(s => {
+                select.innerHTML += `<option value="${s.id}">${s.id} - ${s.jenis} (${s.berat.toLocaleString()} Kg)</option>`;
+            });
+            renderLabResult();
+        }
+
+        function renderLabResult() {
+            const selectId = document.getElementById('lab-ticket-select').value;
+            const sub = submissions.find(s => s.id === selectId);
+            const container = document.getElementById('lab-report-container');
+            const statusBadge = document.getElementById('lab-badge-status');
+
+            if (!sub) return;
+
+            statusBadge.innerText = sub.status;
+
+            container.innerHTML = `
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-sirtanio-50/70 p-5 rounded-2xl border border-sirtanio-100 space-y-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase">Kadar Air Gabah</span>
+                        <h4 class="text-xl font-extrabold text-sirtanio-800">${sub.kadarAir}</h4>
+                        <span class="text-[10px] text-emerald-700 font-bold">Standar Ideal (14% - 18%)</span>
+                    </div>
+                    <div class="bg-sirtanio-50/70 p-5 rounded-2xl border border-sirtanio-100 space-y-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase">Kadar Hampa / Kotoran</span>
+                        <h4 class="text-xl font-extrabold text-sirtanio-800">${sub.kadarHampa}</h4>
+                        <span class="text-[10px] text-emerald-700 font-bold">Maksimal Toleransi 2%</span>
+                    </div>
+                    <div class="bg-sirtanio-50/70 p-5 rounded-2xl border border-sirtanio-100 space-y-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase">Harga Patokan / Kg</span>
+                        <h4 class="text-xl font-extrabold text-sirtanio-800">Rp ${sub.hargaPerKg.toLocaleString('id-ID')}</h4>
+                        <span class="text-[10px] text-gray-500">Insentif Organik Premium</span>
+                    </div>
+                    <div class="bg-sirtanio-50/70 p-5 rounded-2xl border border-sirtanio-100 space-y-1">
+                        <span class="text-xs font-bold text-gray-400 uppercase">Total Estimasi Pembayaran</span>
+                        <h4 class="text-xl font-extrabold text-emerald-700">Rp ${sub.totalBayar.toLocaleString('id-ID')}</h4>
+                        <span class="text-[10px] text-gray-500">Cair H+1 Uji Lab</span>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50 border border-emerald-200 p-5 rounded-2xl space-y-2">
+                    <div class="flex items-center space-x-2 text-sirtanio-800 font-bold text-sm">
+                        <i class="fa-solid fa-clipboard-check text-sirtanio-600"></i>
+                        <span>Catatan Hasil Pengujian Laboratorium Sirtanio:</span>
+                    </div>
+                    <p class="text-xs text-gray-700 leading-relaxed">${sub.catatanLab}</p>
+                </div>
+            `;
+        }
+
+        function inspectLab(id) {
+            switchTab('lab');
+            document.getElementById('lab-ticket-select').value = id;
+            renderLabResult();
+        }
+    </script>
+</body>
+</html>
+```
+eof
+
+I have now successfully generated the complete single-file web application for the PT. Sirtanio Organik Indonesia Partner Farmer Portal.
